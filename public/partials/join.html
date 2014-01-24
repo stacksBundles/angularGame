@@ -1,0 +1,26 @@
+<div class="hero-unit">
+	<div class='panel panel-default'>
+	  	<div class='panel-heading'>
+	  		<h3 class='panel-title'>Enter gamecode</h3>
+	  	</div>
+	  	<div class='panel-body'>
+	  		<input ng-model='gamecode' placeholder='Gamecode'>
+	  		<button ng-click='findGame()' type='button' class='btn btn-default' ng-disabled='querying'>Find game</button>
+	  	</div>
+	  	<div class='panel-footer'>
+	  		<div ng-show='loading'>
+	  			<i class='fa fa-spinner fa-spin'></i>
+	  			<h5>Searching ...</h5>
+	  		</div>
+	  		<p></p>
+	  		<div ng-show='queryWin' class='alert alert-success'>
+  				<h4>Game found!</h4>
+  				<i class='fa fa-spinner fa-spin'></i><h5>Joining ...</h5>
+	  		</div>
+	  		<div ng-show='queryFail' class='alert alert-warning'>
+  				<h5>No game found with that gamecode. Please check for typos and try again.</h5>
+	  		</div>
+	  	</div>
+  	</div>
+</div>
+

@@ -28,3 +28,7 @@
   content: "";
   padding: 0;
 }
+
+.table-well {
+  background-color: rgb(255, 255, 255);
+}

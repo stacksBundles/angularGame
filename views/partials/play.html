@@ -1,0 +1,37 @@
+{% verbatim %}
+
+<div class="hero-unit">
+	<div class='panel panel-default'>
+	  	<div class='panel-heading'>
+	  		<h3 class='panel-title'>{{gamecode}}</h3>
+	  	</div>
+	  	
+	  	<div class='panel-heading' ng-class='{dapped: waiting == false}'>
+	  		<div class='panel-title' ng-show='gameover'>
+	  			<h5>Written by:</h5>
+	  			<h6 ng-repeat='name in playerList'>{{name}}<br></h6>
+	  		</div>
+	  		<div ng-hide='gameover'>
+		  		<div ng-show='waiting' class='panel-title flip'>
+		  			{{ turn + "'s turn" }}
+		  		</div>
+		  	</div>
+	  		<div ng-hide='waiting' class='panel-title flip'>
+	  			{{dapper + ' gave you dap for line ' + number}}
+	  		</div>
+	  	</div>
+  		<div ng-click='dap($index)' ng-repeat='line in lines' class='well well-sm'>
+  			<div class='typewrite'>{{line.text}}<span ng-show='line.dap > 0' class='badge pull-right dapbadge'>{{line.dap}}</span></div>
+  		</div>
+	  	<div class='panel-footer' ng-hide='gameover'>
+	  		<input class='form-control' placeholder='and then ...' ng-model='newline' type='text' max='100'>
+	  		<button ng-disabled='notMyTurn' ng-click='add()' type='button' class='btn btn-block btn-info'>Add</button>
+	  	</div>
+	  	<div class='panel-footer' ng-show='gameover'>
+	  		<button ng-click='save()' type='button' class='btn btn-block btn-info'>Save</button>
+	  		<button ng-click='new()' type='button' class='btn btn-block btn-info'>New game</button>
+	  	</div>
+  	</div>
+</div>
+
+{% endverbatim %}

@@ -1,26 +1,21 @@
-'use strict';
+var app = angular.module('AndThenApp', ['AndThenApp.directives', 'AndThenApp.services', 'AndThenApp.controllers'])
 
-// Declare app level module which depends on filters, and services
-
-angular.module('myApp', [
-  'myApp.controllers',
-  'myApp.filters',
-  'myApp.services',
-  'myApp.directives'
-]).
-config(function ($routeProvider, $locationProvider) {
-  $routeProvider.
-    when('/view1', {
-      templateUrl: 'partials/partial1',
-      controller: 'MyCtrl1'
-    }).
-    when('/view2', {
-      templateUrl: 'partials/partial2',
-      controller: 'MyCtrl2'
-    }).
-    otherwise({
-      redirectTo: '/view1'
-    });
-
-  $locationProvider.html5Mode(true);
-});
+app.config(function ($routeProvider) {
+	$routeProvider
+		.when('/', {
+			templateUrl: 'partials/main.html',
+			controller: 'MainCtrl',
+		})
+		.when('/join', {
+			templateUrl: 'partials/join.html',
+			controller: 'JoinCtrl',
+		})
+		.when('/find', {
+			templateUrl: 'partials/find.html',
+			controller: 'FindCtrl',
+		})
+		.otherwise({
+			templateUrl: 'partials/play.html',
+			controller: 'PlayCtrl',
+		});
+	});		

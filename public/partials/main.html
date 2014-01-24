@@ -1,0 +1,115 @@
+<div class="hero-unit">
+
+	<div ng-show='step == 0' class='panel panel-default'>
+	  	<div class='panel-heading'>
+	  		<img src='images/logoMock1.png'>
+	  	</div>
+	  	<div class='panel-body'>
+
+	  		<button ng-click='start()' type='button' class='btn btn-info btn-block'>New game</button>
+        <button ng-click='log()' type='button' class='btn btn-default btn-block'>Log games</button>
+	  		<p></p>
+	  		<a href='#/join/'>
+	  			<button type='button' class='btn btn-info btn-block'>Join a game</button>
+	  		</a>
+	  	</div>
+	</div>
+
+  <div ng-show='step == 1' class='panel panel-default'>
+  	<div class='panel-heading'>
+  		<h3 class='panel-title'>How many lines?</h3>
+  	</div>
+  	<div class='panel-body'>
+  		<button ng-click='setLine(5)' type='button' class='btn btn-info btn-block'>5</button>
+  		<button ng-click='setLine(10)' type='button' class='btn btn-info btn-block'>10</button>
+  		<button ng-click='setLine(15)' type='button' class='btn btn-info btn-block'>15</button>
+  	</div>
+  </div>
+
+  <!-- <div ng-show='step == 2' class='panel panel-default'>
+  	<div class='panel-heading'>
+  		<h3 class='panel-title'>How many players?</h3>
+  	</div>
+  	<div class='panel-body'>
+  		<button ng-click='setPlay(2)' type='button' class='btn btn-info btn-block'>2</button>
+  		<button ng-click='setPlay(3)' type='button' class='btn btn-info btn-block'>3</button>
+  		<button ng-click='setPlay(4)' type='button' class='btn btn-info btn-block'>4</button>
+  		<button ng-click='goBack()' type='button' class='btn btn-danger btn-block'><i class='fa fa-arrow-circle-left'></i>&nbsp;Go back</button>
+  	</div>
+  	
+  		
+
+  </div> -->
+
+    <div ng-show='step == 2' class='panel panel-default'>
+    	<div class='panel-heading'>
+    		<h3 class='panel-title'>Need a line to get you started?</h3>
+    	</div>
+    	<div class='panel-body'>
+    		<button ng-click='setHint("true")' type='button' class='btn btn-info btn-block'>Yes</button>
+    		<button ng-click='setHint("false")' type='button' class='btn btn-info btn-block'>No</button>
+    		<button ng-click='goBack()' type='button' class='btn btn-danger btn-block'>
+    			<i class='fa fa-arrow-circle-left'></i>&nbsp;Go back
+    		</button>
+    	</div>
+    </div>
+
+    <div ng-show='step == 3' class='panel panel-default'>
+    	<div class='panel-heading'>
+    		<h3 class='panel-title'>Summary</h3>
+    	</div>
+    	<div class='panel-body'>
+    		<table class='table'>
+                <tr><td>Gamecode:<span class='badge pull-right'>{{gamecode}}</span></td></tr>
+          		<tr><td>Lines:<span class='badge pull-right'>{{line}}</span></td></tr>
+          		<tr><td>Hint:<span class='badge pull-right'>{{hintstring}}</span></td></tr>
+    		</table>
+    		<p></p>
+        <button ng-click='letsGo()' type='button' class='btn btn-primary btn-block'>
+            <i class='fa fa-check-circle'></i>&nbsp;Start
+        </button>
+        <button ng-click='start()' type='button' class='btn btn-primary btn-block'>
+            <i class='fa fa-share-square'></i>&nbsp;Invite friends
+        </button>
+        <p></p>
+    	</div>
+    </div>
+    <div ng-show='step == 4' class='panel panel-default'>
+        <div class='panel-heading'>
+            <h3 class='panel-title'>Invite friends to play</h3>
+        </div>
+        <div class='panel-body'>
+            <form name='form' role='form' novalidate>
+                <div class='form-group'>
+                        <input class='form-control' placeholder='email #1' ng-model='friend.email1' name='email1' type='email'>
+                        <p></p>
+                        <input class='form-control' placeholder='email #2' ng-model='friend.email2' name='email2' type='email'>
+                        <p></p>
+                        <input class='form-control' placeholder='email #3' ng-model='friend.email3' name='email3' type='email'>
+                        <p></p>
+                    </div>
+                </div>
+                <button type='button' class='btn btn-info btn-block' ng-click='start()'>I don't want to use email</button>
+                <button type='submit' ng-disabled='form.$invalid' class='btn btn-block btn-info'>Send</button>
+            </form>
+            <button ng-click='goBack()' type='button' class='btn btn-danger btn-block'>
+            <i class='fa fa-arrow-circle-left'></i>&nbsp;Go back
+        </button>
+        </div>
+        
+    </div>
+    <div ng-show='step == 5' class='panel panel-default'>
+        <div class='panel-heading'>
+            <h3 class='panel-title'>Privacy policy</h3>
+        </div>
+        <div class='panel-body'>
+            <h5>We will never store, sell or show the email addresses you provide to anyone. As an alternative, you can always invite your friends using the method of your choice (text, fbook message, smoke signals, etc.) by providing them with the unique gamecode below:
+            </h5>
+            <div class='label label-success'>{{gamecode}}</div>
+        </div>
+        <button ng-click='goBack()' type='button' class='btn btn-danger btn-block'>
+            <i class='fa fa-arrow-circle-left'></i>&nbsp;Go back
+        </button>
+    </div>
+</div>
+

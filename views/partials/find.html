@@ -1,0 +1,55 @@
+{% verbatim %}
+<div class="hero-unit">
+	<div ng-show='step == 1' class='panel panel-default'>
+	  	<div class='panel-heading'>
+	  		<h3 class='panel-title'>Gamecode</h3>
+	  	</div>
+	  	<div class='panel-body'>
+	  		<p>{{gamecode}}</p>
+	  	</div>
+	  	<div class='panel-footer'>
+	  		<button ng-click='next()' type='button' class='btn btn-block btn-info'>Invite friends</button>
+	  		<p></p>
+	  		<a href='#/play/'>
+	  			<button type='button' class='btn btn-block btn-info'>Enter game</button>
+	  		</a>
+	  	</div>
+  	</div>
+  	<div ng-show='step == 2' class='panel panel-default'>
+	  	<div class='panel-heading'>
+	  		<h3 class='panel-title'>Invite</h3>
+	  	</div>
+	  	<div class='panel-body'>
+	  		<form name='form' role='form' novalidate>
+	  			<div class='form-group' ng-hide=''>
+	  				<div ng-repeat='friend in playList'>
+	  					<input class='form-control' placeholder='email #{{ $index + 1 }}' ng-model='friend.email' name='email{{$index}}' type='email' required>
+	  					<p>
+	  					</p>
+	  				</div>
+	  			</div>
+	  			<button type='button' class='btn btn-info btn-block' ng-click='next()'>Privacy policy</button>
+		  		<button type='submit' ng-disabled='form.$invalid' class='btn btn-block btn-info'>Send</button>
+  			</form>
+  		</div>
+  		<button ng-click='back()' type='button' class='btn btn-danger btn-block'>
+			<i class='fa fa-arrow-circle-left'></i>&nbsp;Go back
+		</button>
+  	</div>
+  	<div ng-show='step == 3' class='panel panel-default'>
+  		<div class='panel-heading'>
+  			<h3 class='panel-title'>Privacy policy</h3>
+  		</div>
+  		<div class='panel-body'>
+  			<h5>We will never store, send, sell or show the email addresses you provide to anyone. As an alternative, you can always invite your friends using the method of your choice by providing them with the unique gamecode below:
+  			</h5>
+  			<div class='label label-success'>{{gamecode}}</div>
+  		</div>
+  		<button ng-click='back()' type='button' class='btn btn-danger btn-block'>
+			<i class='fa fa-arrow-circle-left'></i>&nbsp;Go back
+		</button>
+  	</div>
+
+ </div>
+
+ {% endverbatim %}
