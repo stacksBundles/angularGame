@@ -5,7 +5,7 @@ var BSON = require('mongodb').BSON;
 var ObjectID = require('mongodb').ObjectID;
 
 GameProvider = function(host, port) {
-	this.db = new Db('node-mongo-games', new Server(host, port, {auto_reconnect: true}, {}));
+	this.db = new Db('node-mongo-games', new Server('23.20.249.27', 27809, {auto_reconnect: true}, {}));
 	this.db.open(function(){});
 };
 

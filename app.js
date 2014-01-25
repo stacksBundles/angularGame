@@ -11,7 +11,8 @@ var server = require('http').createServer(app);
 
 var GameProvider = require('./gameprovider-mongodb').GameProvider;
 // 27017  :27809/gameprovider-mongodb
-var gameProvider = new GameProvider('mongodb://stacksBundles:tiK7meLx@ds027809.mongolab.com:27809/gameprovider-mongodb', 27809);
+// mongodb://stacksBundles:tiK7meLx@ds027809.mongolab.com:27809/gameprovider-mongodb
+var gameProvider = new GameProvider('localhost', 27809);
 
 
 // SERVER CONFIGURATION
