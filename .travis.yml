@@ -1,0 +1,8 @@
+node_js: 
+- 0.10.21
+language: node_js
+deploy: 
+  app: angularGame
+  provider: heroku
+  api_key: 
+    secure: QMHtBn+t3h3mOKffVmE8wL9Z44a8wqAEYEXobwGB2GiKkTk0C7Xp1xdBsViH6TmrPSePW9HnClcvo2jl96+yYMfsHVpG/CDlTpPPSfQO+UBsR15+4EpYiVZyU4dYmStf5V/BRwMb2Sw/rbE812vKW6QWK/9xAjeArOSZm8wkodA=
