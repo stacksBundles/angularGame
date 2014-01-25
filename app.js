@@ -10,7 +10,7 @@ var app = module.exports = express();
 var server = require('http').createServer(app);
 
 var GameProvider = require('./gameprovider-mongodb').GameProvider;
-var gameProvider = new GameProvider('localhost', 27017);
+var gameProvider = new GameProvider('mongodb://stacksBundles:tiK7meLx@ds027809.mongolab.com:27809/gameprovider-mongodb', 27017);
 
 
 // SERVER CONFIGURATION
