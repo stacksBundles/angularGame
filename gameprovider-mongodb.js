@@ -5,13 +5,11 @@ var BSON = require('mongodb').BSON;
 var ObjectID = require('mongodb').ObjectID;
 
 GameProvider = function(host, port) {
-	this.db = new Db('node-mongo-games', new Server('23.20.249.27', 27809, {auto_reconnect: true}, {}));
+	this.db = new Db('gameprovider-mongodb', new Server(host, port, {auto_reconnect: true}, {}));
 	this.db.open(function(){});
 };
 
 GameProvider.prototype.save = function(games, callback) {
-
-	console.log('save check');
 
 	this.getCollection(function (error, game_collection) {
 		if (error) {
