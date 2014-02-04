@@ -108,7 +108,7 @@ app.get('/api/gameQuery/:id', function (req, res) {
 
 	console.log('api received query ... ' + req.params.id)
 
-	Game.findOne({gamecode: req.params.id}, function (error, data) {
+	Game.findOne({'gamecode': req.params.id}, function (error, data) {
 		if(error) {
 			console.log(error);
 			res.send('failure', 500)

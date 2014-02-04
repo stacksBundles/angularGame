@@ -98,7 +98,7 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 
 	GameService.load = function(gamecode) {
 
-		var URL = 'http://murmuring-escarpment-2549.herokuapp.com/' + gamecode;
+		var URL = 'http://murmuring-escarpment-2549.herokuapp.com/gameQuery/' + gamecode;
 
 		$http.get(URL).success(function (data) {
 			GameService.results = data;
