@@ -118,10 +118,6 @@ app.get('/api/gameQuery/:id', function (req, res) {
 			res.send(data);
 		}
 	})
-
-	// gameProvider.findByGameCode(req.params.id, function (error, data) {
-	// 	res.send(data);
-	// });
 });
 
 app.get('/api/gameDelete/:id', function (req, res) {
