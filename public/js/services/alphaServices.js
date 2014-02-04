@@ -125,7 +125,7 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 
 			game.players.push(username);
 
-			var URL = 'http://murmuring-escarpment-2549.herokuapp.com/';
+			var URL = 'http://murmuring-escarpment-2549.herokuapp.com/api/gamePatch/';
 			var packet = {
 				opType: 'userAdd',
 				gamecode: game.gamecode,
@@ -151,9 +151,13 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 		};
 	}
 
-	GameService.delete = function(gamecode) {
-		var URL = 'http://murmuring-escarpment-2549.herokuapp.com/' + gamecode;
-		$http.get(URL).success( function (data) {
+	GameService.delete = function(code) {
+		var URL = 'http://murmuring-escarpment-2549.herokuapp.com/api/gamePatch' + gamecode;
+		var packet = {
+			opType: 'gameEnd',
+			gamecode: code
+		};
+		$http.post(URL, packet).success( function (data) {
 			$rootScope.$broadcast('deleteSuccess');
 		});
 	}
@@ -168,7 +172,7 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 	GameService.poll = function(id) {
 		var poller = function() {
 			console.log('polling ... ');
-			var URL = 'http://murmuring-escarpment-2549.herokuapp.com/' + id;
+			var URL = 'http://murmuring-escarpment-2549.herokuapp.com/api/gameQuery/' + id;
 			$http.get(URL).success( function (response, status, headers) {
 				console.log('poll success');
 				GameService.results = response;
