@@ -1,6 +1,6 @@
 var controllers = angular.module('AndThenApp.controllers', [])
  
-controllers.controller('MainCtrl', function ($scope, GameService, $location) {
+controllers.controller('MainCtrl', function ($scope, GameService, $location, $timeout) {
   	$scope.step = 0;
   	$scope.setLine = function(value) {
   		$scope.line = value;
@@ -16,8 +16,14 @@ controllers.controller('MainCtrl', function ($scope, GameService, $location) {
   		$scope.step++;
   	}
   	$scope.letsGo = function() {
-  		GameService.save($scope.gamecode);
+  		$timeout(
+  			GameService.save($scope.gamecode), 5000
+  		);
+  		
   		$location.path('/' + $scope.gamecode);
+  	}
+  	$scope.joinRoute = function() {
+  		$location.path('/join');
   	}
   	// $scope.log = function() {
   	// 	GameService.log();
