@@ -152,12 +152,8 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 	}
 
 	GameService.delete = function(code) {
-		var URL = 'http://murmuring-escarpment-2549.herokuapp.com/api/gamePatch' + gamecode;
-		var packet = {
-			opType: 'gameEnd',
-			gamecode: code
-		};
-		$http.post(URL, packet).success( function (data) {
+		var URL = 'http://murmuring-escarpment-2549.herokuapp.com/api/gameDelete/' + gamecode;
+		$http.get(URL).success( function (data) {
 			$rootScope.$broadcast('deleteSuccess');
 		});
 	}
