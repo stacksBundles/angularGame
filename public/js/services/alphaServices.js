@@ -1,10 +1,10 @@
 var services = angular.module('AndThenApp.services', [])
 
-services.factory('GameService', function($rootScope, $http) {
+services.factory('GameService', function($rootScope, $http, $timeout) {
 	
-	var GameService = {};
-
-	GameService.results = {};
+	var GameService = {
+		results: {}
+	};
 
 	var games = [];
 
@@ -23,6 +23,9 @@ services.factory('GameService', function($rootScope, $http) {
 
 		$http.post(URL, temp).success( function() {
 			console.log('saved successfully');
+		}).error( function (data, status, headers, config) {
+			console.log('error ... ' + status);
+			console.log(data);
 		});
 	}
 
@@ -33,42 +36,54 @@ services.factory('GameService', function($rootScope, $http) {
 		$http.get(URL).success(function (data) {
 			GameService.results = data;
 			$rootScope.$broadcast('querySuccess');
+		}).error( function (data, status, headers, config) {
+			console.log('error ... ' + status);
+			console.log(data);
 		});
 
 	}
 
-	GameService.addLine = function(gamecode, textObject) {
+	GameService.addLine = function(code, textObject, turn) {
 
 		var URL = 'http://localhost:3000/api/gamePatch';
+
+		var flipTurn = (turn == 0 ? 1 : 0);
 		
 		var packet = {
 			opType: 'lineAdd',
-			code: gamecode,
-			line: textObject.line,
-			turn: textObject.turn
+			gamecode: code,
+			text: textObject.text,
+			author: textObject.author,
+			turn: flipTurn
 		};
+
+		console.log('logging packet for lineAdd');
+		console.log(packet);
 
 		$http.post(URL, packet).success( function (data) {
 			console.log('saved new line ...');
 			console.log('linecount = '+ GameService.results.lines);
 			if (GameService.results.lines == 1) {
-				packet.opType = 'gameEnd'
+				packet = {
+					opType: 'gameEnd',
+					gamecode: code
+				} 
 				$http.post(URL, packet).success( function (data) {
 					console.log('game over');
+					$rootScope.$broadcast('gameOver');
 				})
 			}
 		});
 
 	}
 
-	GameService.set = function(line, hint) {
+	GameService.set = function(line) {
 		
 		var generate = Math.floor((Math.random() * 100) + 1);
 
 		var newGame = {
 			gamecode: generate,
 			lines: line,
-			givehint: hint,
 			players: [],
 			text: [],
 			turn: 0,
@@ -101,7 +116,8 @@ services.factory('GameService', function($rootScope, $http) {
 
 		var game = GameService.results;
 
-		console.log(GameService.results.players);
+		console.log('checking before joining ... ');
+		console.log(game);
 		
 		// then check to see if the room is full, and whether 
 		// someone else is already using your username
@@ -112,12 +128,17 @@ services.factory('GameService', function($rootScope, $http) {
 			var URL = 'http://localhost:3000/api/gamePatch';
 			var packet = {
 				opType: 'userAdd',
-				code: game.gameCode,
+				gamecode: game.gamecode,
 				name: username
 			};
 
+			console.log(packet);
+
 			$http.post(URL, packet).success( function (data) {
-				console.log('saved new username ...');
+				GameService.result = data;
+				console.log('saved new username ... starting polling: ' + packet.gamecode);
+				$rootScope.$broadcast('joinSuccess');
+				GameService.poll(packet.gamecode);
 			})
 			
 			return message;
@@ -142,6 +163,29 @@ services.factory('GameService', function($rootScope, $http) {
 		$http.get(URL).success( function (data) {
 			console.log('log success ... ');
 		});
+	}
+
+	GameService.poll = function(id) {
+		var poller = function() {
+			console.log('polling ... ');
+			var URL = 'http://localhost:3000/api/gameQuery/' + id;
+			$http.get(URL).success( function (response, status, headers) {
+				console.log('poll success');
+				GameService.results = response;
+				$rootScope.$broadcast('pollSuccess');
+				if (GameService.results.state == true) {
+					$timeout(poller, 5000);
+				}
+				else if (GameService.results.state == false) {
+					$rootScope.$broadcast('gameOver');
+				}
+			})
+			.error( function (response, status, headers) {
+				console.log('poll failure, waiting 10 seconds to try again');
+				$timeout(poller, 10000);
+			})
+		};
+		poller();
 	}
 
 	return GameService;

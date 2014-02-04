@@ -4,16 +4,135 @@ var express = require('express'),
 	fs = require('fs'),
  	routes = require('./routes'),
  	api = require('./routes/api'),
- 	path = require('path');
+ 	path = require('path'),
+ 	mongoose = require('mongoose');
 
 var app = module.exports = express();
 var server = require('http').createServer(app);
 
-var GameProvider = require('./gameprovider-mongodb').GameProvider;
+//var GameProvider = require('./gameprovider-mongodb').GameProvider;
 // 27017  :27809/gameprovider-mongodb
 // mongodb://stacksBundles:tiK7meLx@ds027809.mongolab.com:27809/gameprovider-mongodb
-var gameProvider = new GameProvider('23.20.249.27', 27809);
+// var gameProvider = new GameProvider('23.20.249.27', 27809);
 
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+mongoose.connect('mongodb://stacksBundles:tiK7meLx@ds027809.mongolab.com:27809/gameprovider-mongodb');
+
+var gameSchema = new Schema({
+	gamecode: Number,
+	lines: Number,
+	givehint: Boolean,
+	players: [String],
+	text: [
+		{
+			author: String, text: String
+		}
+	],
+	turn: Number,
+	state: Boolean
+})
+
+
+// gameSchema.methods.find = function (gamecode, callback) {
+	
+// 	Game.findOne({'gamecode': gamecode}, function (err, game) {
+
+// 		if (!err) {
+// 			console.log('making call to database using find method ...');
+// 			callback(null, game);
+// 		}
+// 		else {
+// 			callback(err);
+// 		}
+// 	})
+// };
+
+// gameSchema.methods.addUser = function (gamecode, username, callback) {
+// 	Game.findOneAndUpdate({'gamecode': gamecode}, {$push: {players: username}}, function (err, game) {
+// 		if (!err) {
+// 			game.save( function (error) {
+// 				if (error) {
+// 					callback(error);
+// 				}
+// 				else {
+// 					callback(null, game);
+// 				}
+// 			});
+// 		}
+// 		else {
+// 			callback(err);
+// 		}
+// 	})
+// };
+
+// gameSchema.methods.addLine = function (gamecode, line, callback) {
+// 	Game.findOne({'gamecode': gamecode}, function (err, game) {
+// 		if(!err) {
+// 			game.text.push(line);
+// 			game.lines--;
+// 			game.save( function (error) {
+// 				if (error) {
+// 					callback(error);
+// 				}
+// 				else {
+// 					callback(null, game);
+// 				}
+// 			});
+// 		}
+// 		else {
+// 			callback(err);
+// 		}
+// 	})
+// };
+
+// gameSchema.methods.endGame = function (gamecode, callback) {
+// 	Game.findOne({'gamecode': gamecode}, function (err, game) {
+// 		if (!err) {
+// 			game.state = false;
+// 			game.save( function (error) {
+// 				if(error) {
+// 					callback(error);
+// 				}
+// 				else {
+// 					callback(null);
+// 				}
+// 			})
+// 		}
+// 		else {
+// 			callback(err);
+// 		}
+// 	})
+// };
+
+// gameSchema.methods.deleteGame = function (gamecode, callback) {
+// 	Game.findOne({'gamecode': gamecode}, function (err, game) {
+// 		if(!err) {
+// 			game.remove( function (Error) {
+// 				if (Error) {
+// 					callback(Error);
+// 				}
+// 				else {
+// 					callback(null);
+// 				}
+// 			})
+// 		}
+// 		else {
+// 			callback(err);
+// 		}
+// 	})
+// };
+
+var success = function() {
+	console.log('connection to mongodb successful ... ');
+}
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'error when attempting to establish connection to mongodb ... '));
+db.once('open', success);
+
+var Game = mongoose.model('Game', gameSchema);
 
 // SERVER CONFIGURATION
 
@@ -54,80 +173,133 @@ app.post('/api/gameCreate', function (req, res) {
 
 	console.log(req.param);
 
-	gameProvider.save({
-			gameCode: req.param('gamecode'),
-			lines: req.param('lines'),
-			players: req.param('players'),
-			text: req.param('text'),
-			turn: req.param('turn'),
-			state: req.param('state')
-		}, function (error, data) {
-			if (error) {
-				console.log(error);
-			}
+	game = new Game({
+		gamecode: req.param('gamecode'),
+		lines: req.param('lines'),
+		players: [],
+		text: req.param('text'),
+		turn: req.param('turn'),
+		state: req.param('state')
+	})
+
+	console.log('initialized model ... ');
+
+	game.save(function (error) {
+		if (error) {
+			console.log('create failed');
+			console.log(error);
+			res.send('failure', 500);
+		}
+		else {
+			console.log('success');
 			res.send('success', 201);
-		});
+		}
+	});
+
 });
 
 app.get('/api/gameQuery/:id', function (req, res) {
-	gameProvider.findByGameCode(req.params.id, function (error, data) {
-		res.send(data);
-	});
+
+	console.log('api received query ... ' + req.params.id)
+
+	Game.findOne({gamecode: req.params.id}, function (error, data) {
+		if(error) {
+			console.log(error);
+			res.send('failure', 500)
+		}
+		else {
+			console.log(data);
+			res.send(data);
+		}
+	})
+
+	// gameProvider.findByGameCode(req.params.id, function (error, data) {
+	// 	res.send(data);
+	// });
 });
 
 app.get('/api/gameDelete/:id', function (req, res) {
-	gameProvider.deleteGame(req.params.id, function (error, data) {
-		if (error) {
+
+	Game.remove({'gamecode': req.params.id}, function (err) {
+		if (err) {
 			console.log(error);
+			res.send('failure', 500);
 		}
-		console.log('delete success');
-		res.send('success', 201);
-	})
+		else {
+			res.send('success', 201);
+		}
+	});
 })
 
 app.post('/api/gamePatch', function (req, res) {
 	if (req.param('opType') == 'userAdd') {
-		console.log('received user push request');
-		gameProvider.addPlayer(req.param('code'), req.param('name'), function (error, data) {
-			if (error) {
-				console.log(error);
+		console.log('received user push request: ' + req.param('gamecode'));
+		Game.findOneAndUpdate({'gamecode': req.param('gamecode')}, {$push: {players: req.param('name')}}, function (err, game) {
+			if (!err) {
+				game.save( function (error) {
+					if (error) {
+						console.log(error);
+						res.send('failure', 500);
+					}
+					else {
+						res.send(game, 201);
+					}
+				});
 			}
-			res.send('success', 201);
-		})
+			else {
+				console.log(err);
+				res.send('failure', 500);
+			}
+		});
 	}
 	else if (req.param('opType') == 'gameEnd') {
 		console.log('received game over command');
-		gameProvider.endGame(req.param('code'), function (error, data) {
-			if (error) {
+		Game.findOneAndUpdate({'gamecode': req.param('gamecode')}, {$set: {'state': false}}, function (err, game) {
+			if (err) {
 				console.log(error);
+				res.send('failure', 500);
 			}
-			res.send('success', 201);
+			else {
+				res.send('success', 201);
+			}
 		})
 	}
 	else {
 		console.log('received line push request, opType = ' + req.param('opType'));
-		gameProvider.addLine(req.param('code'), req.param('line'), req.param('turn'), function (error, data) {
-			if (error) {
-				console.log(error);
+
+		Game.findOneAndUpdate({'gamecode': req.param('gamecode')}, {$push: {text: {author: req.param('author'), text: req.param('text')}}, $inc: {lines: -1}, $set: {turn: req.param('turn')}}, function (err, game) {
+			if (!err) {
+				game.save( function (error) {
+					if (error) {
+						console.log(error);
+						res.send('failure', 500);
+					}
+					else {
+						res.send(game, 201);
+					}
+				})
 			}
-			res.send('success', 201);
-		})
+			else {
+				console.log(err);
+				res.send('failure', 500);
+			}
+		});
 	}
 })
 
-app.get('/api/gameLog', function (req, res) {
-	gameProvider.findAll( function (error, data) {
-		if (error) {
-			console.log(error);
-		}
-		console.log(data);
-		var count = data.length;
-		for (i = 0; i < count; i++) {
-			console.log(data[i].gameCode);
-		}
-		res.send('success', 201);
-	})
-})
+// app.get('/api/gameLog', function (req, res) {
+// 	gameProvider.findAll( function (error, data) {
+// 		if (error) {
+// 			console.log(error);
+// 		}
+// 		console.log(data);
+// 		var count = data.length;
+// 		for (i = 0; i < count; i++) {
+// 			console.log(data[i].gameCode);
+// 		}
+// 		res.send('success', 201);
+// 	})
+// })
 
 // redirect all others to the index (HTML5 history)
 

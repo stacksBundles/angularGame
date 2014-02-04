@@ -1,7 +1,13 @@
 <div class="hero-unit">
 	<div class='panel panel-default'>
 	  	<div class='panel-heading'>
-	  		<h3 class='panel-title'>{{'Gamecode: ' + gameObject.gameCode}}</h3>
+	  		<h3 class='panel-title'>
+	  			<div class='greenLight' ng-hide='notMyTurn'></div>
+	  			<div class='redLight' ng-show='notMyTurn'></div>
+	  			<div class='title'>
+	  			{{'Gamecode: ' + gameObject.gamecode}}
+	  			</div>
+	  		</h3>
 	  	</div>
 	  	
 	  	<div class='panel-heading' ng-class='{dapped: waiting == false}'>
@@ -11,7 +17,7 @@
 		  			<h6 ng-repeat='name in gameObject.players'>{{name}}<br></h6>
 		  		</div>
 	  		</div>
-	  		<div ng-hide='gameover'>
+	  		<div ng-show='playing && !gameover'>
 		  		<div class='panel-title flip'>
 		  			{{ turnAnnounce + "'s turn" }}
 		  		</div>	
@@ -30,17 +36,20 @@
   					{{errormess}}
   				</div>
   			</div>
-  			<p>Enter a username</p>
-  			<input ng-model='username'>
-  			<button ng-disabled='allowJoin' type='button' class='btn btn-default btn-block' ng-click='join()'>Join</button>
+  			<div class='alert alert-info'>
+  				
+  				<input max='100' type='text' class='form-control' placeholder='enter a username' ng-model='username' novalidate>
+	  			<button ng-disabled='allowJoin' type='button' class='btn btn-default btn-block' ng-click='join()'>Join</button>
+	  		</div>
   		</div>
-	  	<div class='panel-footer' ng-hide='gameover'>
+	  	<div class='panel-footer' ng-show='playing'>
 	  		<input class='form-control' placeholder='and then ...' ng-model='newline' type='text' max='100'>
 	  		<button ng-disabled='notMyTurn' ng-click='add()' type='button' class='btn btn-block btn-info'>Add</button>
 	  	</div>
-	  	<div class='panel-footer' ng-show='gameover'>
-	  		<button ng-click='save()' type='button' class='btn btn-block btn-info'>Save</button>
-	  		<button ng-click='newGame()' type='button' class='btn btn-block btn-info'>New game</button>
+	  	<div class='panel-footer' ng-show='playing'>
+		  		<div class='alert alert-success' ng-show='saved'>Game saved</div>
+		  		<button ng-hide='saved' ng-click='save()' type='button' class='btn btn-block btn-info'>Save</button>
+		  		<button ng-click='newGame()' type='button' class='btn btn-block btn-info'>New game</button>
 	  	</div>
   	</div>
 </div>

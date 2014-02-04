@@ -5,13 +5,7 @@ controllers.controller('MainCtrl', function ($scope, GameService, $location) {
   	$scope.setLine = function(value) {
   		$scope.line = value;
   		$scope.step++;
-  	}
-  	$scope.setHint = function(value) {
-  		$scope.hint = value;
-  		$scope.hintstring = (value == "true" ? 'Yes': 'No');
-  		$scope.step++;
-  		$scope.gamecode = GameService.set($scope.line, $scope.hint);
-
+  		$scope.gamecode = GameService.set($scope.line);
   	}
   	$scope.goBack = function(value) {
   		if ($scope.step > 1) {
@@ -25,9 +19,9 @@ controllers.controller('MainCtrl', function ($scope, GameService, $location) {
   		GameService.save($scope.gamecode);
   		$location.path('/' + $scope.gamecode);
   	}
-  	$scope.log = function() {
-  		GameService.log();
-  	}
+  	// $scope.log = function() {
+  	// 	GameService.log();
+  	// }
   	
   });
 
@@ -130,42 +124,30 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 	$scope.error = false;
 	$scope.allowJoin = true;
 	$scope.gameover = false;
-
-	function finder() {
-		$scope.getPath = $location.path().slice(1);
-		GameService.load($scope.getPath);
-	}
-
-	finder();
-
-	$scope.$on('loadSuccess', function() {
-		console.log('game loaded ...');
-		$scope.gameObject = GameService.results;
-		$scope.allowJoin = false;
-	});
-
-
+	$scope.notMyTurn = true;
 
 	$scope.join = function() {
-
+		console.log($scope.username);
 		if ($scope.username) {
 			if ($scope.gameObject.players.length == 0) {
+				console.log('calling join ...')
 				GameService.join($scope.username);
-				console.log('join worked ...');
-				$scope.playing = true;
 			}
 			else if ($scope.gameObject.players.length == 1) {
 				if ($scope.gameObject.players[0] == $scope.username) {
+					console.log('already pushed username, joining ...');
+					GameService.poll($scope.gameObject.gamecode);
 					$scope.playing = true;
 				}
 				else {
+					console.log('calling join ...')
 					GameService.join($scope.username);
-					console.log('join worked ...');
-					$scope.playing = true;
 				}
 			}
 			else {
 				if ($scope.gameObject.players[0] == $scope.username  || $scope.gameObject.players[1] == $scope.username ) {
+					console.log('already pushed username, joining ...');
+					GameService.poll($scope.gameObject.gamecode);
 					$scope.playing = true;
 				}
 				else {
@@ -174,59 +156,75 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 					$scope.errormess = 'Game full :(';
 				}
 			}
-		
 		}
-		
-	}
-
-	var poller = function tick() {
-		GameService.query($scope.gameObject.gameCode);
-		$scope.$on('querySuccess', function() {
-			console.log('polled... ');
-			$scope.gameObject = GameService.results;
-			$scope.turnAnnounce = $scope.gameObject.players[$scope.gameObject.turn];
-			if ($scope.gameObject.state == false) {
-				$scope.gameover = true;
-				$scope.playing = true;
-				return;
-			}
-			else {
-				if ($scope.gameObject.players[$scope.gameObject.turn] == $scope.username) {
-					$scope.notMyTurn = false;
-				}
-				else {
-					$scope.notMyTurn = true;
-				}
-				
-			}
-		});
-		$timeout(tick, 10000);
-		
 	};
-	
-	$scope.notMyTurn = true;
-
-	poller();
 
 	$scope.add = function() {
 		$scope.notMyTurn = true;
 		var flipTurn = ($scope.gameObject.turn == 0) ? 1 : 0;
 		packet = {
-			line: {
-				text: $scope.newline,
-				author: $scope.username
-			},
-			turn: flipTurn
+			text: $scope.newline,
+			author: $scope.username
 		};
-		GameService.addLine($scope.gameObject.gameCode, packet);
+		GameService.addLine($scope.gameObject.gamecode, packet, $scope.gameObject.turn);
+		$scope.newline = '';
 	};
 
 	$scope.newGame = function() {
-		GameService.delete($scope.gameObject.gameCode);
-		$scope.$on('deleteSuccess', function() {
+		if ($scope.saved) {
 			$location.path('/');
-		});
+		}
+		else {
+			GameService.delete($scope.gameObject.gamecode);
+			$scope.$on('deleteSuccess', function() {
+				$location.path('/');
+			});
+		}
 	}
 
+	$scope.save = function() {
+		$scope.saved = true;
+	}
+
+	function finder() {
+		var regexStr = /\/(\d+)(?:\/|$)/;
+		$scope.getPath = regexStr.exec($location.path());
+		if ($scope.getPath) {
+			console.log($scope.getPath[1]);
+			GameService.load($scope.getPath[1]);
+		}
+		else {
+			console.log('error');
+		}
+	}
+
+	finder();
+
+	$scope.$on('joinSuccess', function() {
+		$scope.playing = true;
+	})
+
+	$scope.$on('loadSuccess', function() {
+		console.log('game loaded ...');
+		$scope.gameObject = GameService.results;
+		$scope.allowJoin = false;
+	});
+
+	$scope.$on('pollSuccess', function() {
+		$scope.gameObject = GameService.results;
+		if ($scope.gameObject.players[$scope.gameObject.turn] == $scope.username) {
+			$scope.notMyTurn = false;
+		}
+		else {
+			$scope.notMyTurn = true;
+		}
+		$scope.turnAnnounce = $scope.gameObject.players[$scope.gameObject.turn];
+	});
+
+	$scope.$on('gameOver', function() {
+		$scope.playing = true;
+		$scope.gameover = true;
+		$scope.notMyTurn = true;
+	});
 
 })

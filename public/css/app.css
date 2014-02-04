@@ -32,3 +32,26 @@
 .table-well {
   background-color: rgb(255, 255, 255);
 }
+
+.greenLight {
+  display: inline-block;
+  background-color: rgb(0, 255, 0);
+  min-width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  margin: 3px 8px 3px 3px;
+
+}
+
+.redLight {
+  display: inline-block;
+  background-color: rgb(255, 0, 0);
+  min-width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  margin: 3px 8px 3px 3px;
+}
+
+.title {
+  display: inline-block;
+}
