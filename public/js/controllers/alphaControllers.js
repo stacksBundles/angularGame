@@ -122,12 +122,12 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 	$scope.fail = false;
 	$scope.errormess = '';
 	$scope.error = false;
-	$scope.allowJoin = true;
+	$scope.disallowJoin = true;
 	$scope.gameover = false;
 	$scope.notMyTurn = true;
 
 	$scope.join = function() {
-		console.log($scope.username);
+		console.log($scope.gameObject);
 		if ($scope.username) {
 			if ($scope.gameObject.players.length == 0) {
 				console.log('calling join ...')
@@ -207,7 +207,7 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 	$scope.$on('loadSuccess', function() {
 		console.log('game loaded ...');
 		$scope.gameObject = GameService.results;
-		$scope.allowJoin = false;
+		$scope.disallowJoin = false;
 	});
 
 	$scope.$on('pollSuccess', function() {
