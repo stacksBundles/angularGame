@@ -9,11 +9,7 @@ var express = require('express'),
 
 var app = module.exports = express();
 var server = require('http').createServer(app);
-
-//var GameProvider = require('./gameprovider-mongodb').GameProvider;
-// 27017  :27809/gameprovider-mongodb
-// mongodb://stacksBundles:tiK7meLx@ds027809.mongolab.com:27809/gameprovider-mongodb
-// var gameProvider = new GameProvider('23.20.249.27', 27809);
+var port = process.env.PORT || CONFIG.port;
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
@@ -33,96 +29,6 @@ var gameSchema = new Schema({
 	turn: Number,
 	state: Boolean
 })
-
-
-// gameSchema.methods.find = function (gamecode, callback) {
-	
-// 	Game.findOne({'gamecode': gamecode}, function (err, game) {
-
-// 		if (!err) {
-// 			console.log('making call to database using find method ...');
-// 			callback(null, game);
-// 		}
-// 		else {
-// 			callback(err);
-// 		}
-// 	})
-// };
-
-// gameSchema.methods.addUser = function (gamecode, username, callback) {
-// 	Game.findOneAndUpdate({'gamecode': gamecode}, {$push: {players: username}}, function (err, game) {
-// 		if (!err) {
-// 			game.save( function (error) {
-// 				if (error) {
-// 					callback(error);
-// 				}
-// 				else {
-// 					callback(null, game);
-// 				}
-// 			});
-// 		}
-// 		else {
-// 			callback(err);
-// 		}
-// 	})
-// };
-
-// gameSchema.methods.addLine = function (gamecode, line, callback) {
-// 	Game.findOne({'gamecode': gamecode}, function (err, game) {
-// 		if(!err) {
-// 			game.text.push(line);
-// 			game.lines--;
-// 			game.save( function (error) {
-// 				if (error) {
-// 					callback(error);
-// 				}
-// 				else {
-// 					callback(null, game);
-// 				}
-// 			});
-// 		}
-// 		else {
-// 			callback(err);
-// 		}
-// 	})
-// };
-
-// gameSchema.methods.endGame = function (gamecode, callback) {
-// 	Game.findOne({'gamecode': gamecode}, function (err, game) {
-// 		if (!err) {
-// 			game.state = false;
-// 			game.save( function (error) {
-// 				if(error) {
-// 					callback(error);
-// 				}
-// 				else {
-// 					callback(null);
-// 				}
-// 			})
-// 		}
-// 		else {
-// 			callback(err);
-// 		}
-// 	})
-// };
-
-// gameSchema.methods.deleteGame = function (gamecode, callback) {
-// 	Game.findOne({'gamecode': gamecode}, function (err, game) {
-// 		if(!err) {
-// 			game.remove( function (Error) {
-// 				if (Error) {
-// 					callback(Error);
-// 				}
-// 				else {
-// 					callback(null);
-// 				}
-// 			})
-// 		}
-// 		else {
-// 			callback(err);
-// 		}
-// 	})
-// };
 
 var success = function() {
 	console.log('connection to mongodb successful ... ');
@@ -287,28 +193,14 @@ app.post('/api/gamePatch', function (req, res) {
 	}
 })
 
-// app.get('/api/gameLog', function (req, res) {
-// 	gameProvider.findAll( function (error, data) {
-// 		if (error) {
-// 			console.log(error);
-// 		}
-// 		console.log(data);
-// 		var count = data.length;
-// 		for (i = 0; i < count; i++) {
-// 			console.log(data[i].gameCode);
-// 		}
-// 		res.send('success', 201);
-// 	})
-// })
-
 // redirect all others to the index (HTML5 history)
 
 app.get('*', routes.index);
 
 // START SERVER
 
-app.listen(3000, function(){
-	console.log('Express server listening on port 3000');
+app.listen(port, function(){
+	console.log('Express server listening on port ' + port);
 });
 
 
