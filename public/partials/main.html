@@ -62,10 +62,10 @@
               <button type='submit' ng-disabled='form.$invalid' class='btn btn-block btn-info'>Send</button>
           </form> -->
           <p>
-            {{ 'To invite someone to play, send them this gamecode: ' + gamecode + ' and tell them to come here. Or send them the following link: '}}
+            To invite someone to play, send them this gamecode: <kbd>{{gamecode}}</kbd>  and tell them to come here. Or send them the following link:
           </p>
           <pre>
-            {{'www.whateverthehell.com/#/' + gamecode }}
+            murmuring-escarpment-2549.herokuapp.com.com/#/{{gamecode}}
           </pre>
           <p>
             You can use text/email/smoke signals whatever floats your boat.
