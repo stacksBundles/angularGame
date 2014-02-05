@@ -34,6 +34,7 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 			GameService.results = data;
 			$rootScope.$broadcast('querySuccess');
 		}).error( function (data, status, headers, config) {
+			$rootScope.$broadcast('queryFailure');
 			console.log('error ... ' + status);
 			console.log(data);
 		});

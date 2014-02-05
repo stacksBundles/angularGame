@@ -117,6 +117,7 @@ controllers.controller('JoinCtrl', function ($scope, JoinService, GameService, $
 		$scope.loading = false;
 		$scope.queryFail = true;
 		$scope.querying = false;
+		$scope.gamecode = '';
 	})
 
 })
