@@ -133,6 +133,7 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 	$scope.gameover = false;
 	$scope.notMyTurn = true;
 	$scope.gameFull = false;
+	$scope.joined = false;
 
 	$scope.join = function() {
 		if ($scope.username) {
@@ -143,6 +144,7 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 				if ($scope.gameObject.players[0] == $scope.username) {
 					GameService.poll($scope.gameObject.gamecode);
 					$scope.playing = true;
+					$scope.joined = true;
 				}
 				else {
 					GameService.join($scope.username);
@@ -152,6 +154,7 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 				if ($scope.gameObject.players[0] == $scope.username  || $scope.gameObject.players[1] == $scope.username ) {
 					GameService.poll($scope.gameObject.gamecode);
 					$scope.playing = true;
+					$scope.joined = true;
 				}
 				else {
 					$scope.error = true;
@@ -202,11 +205,7 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 
 	$scope.$on('joinSuccess', function() {
 		$scope.playing = true;
-		if (GameService.results.state = false) {
-			$scope.playing = false;
-			$scope.gameover = true;
-			$scope.notMyTurn = true;
-		};
+		$scope.joined = true;
 	})
 
 	$scope.$on('loadSuccess', function() {
