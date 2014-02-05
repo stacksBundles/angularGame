@@ -169,15 +169,15 @@ app.post('/api/gamePatch', function (req, res) {
 
 		Game.findOneAndUpdate({'gamecode': req.param('gamecode')}, {$push: {text: {author: req.param('author'), text: req.param('text')}}, $inc: {lines: -1}, $set: {turn: req.param('turn')}}, function (err, game) {
 			if (!err) {
-				game.save( function (error) {
-					if (error) {
-						console.log(error);
-						res.send('failure', 500);
-					}
-					else {
+				// game.save( function (error) {
+				// 	if (error) {
+				// 		console.log(error);
+				// 		res.send('failure', 500);
+				// 	}
+				// 	else {
 						res.send(game, 201);
-					}
-				})
+					// }
+				// })
 			}
 			else {
 				console.log(err);

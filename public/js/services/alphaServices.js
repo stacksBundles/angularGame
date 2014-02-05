@@ -66,6 +66,14 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 					$rootScope.$broadcast('gameOver');
 				})
 			}
+			else {
+				GameService.results = data;
+			}
+		})
+		.error( function (response, status, headers) {
+			console.log(response);
+			console.log(status);
+			console.log(headers);
 		});
 
 	}

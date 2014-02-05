@@ -163,7 +163,6 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 
 	$scope.add = function() {
 		$scope.notMyTurn = true;
-		var flipTurn = ($scope.gameObject.turn == 0) ? 1 : 0;
 		packet = {
 			text: $scope.newline,
 			author: $scope.username
