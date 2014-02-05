@@ -133,31 +133,25 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 	$scope.notMyTurn = true;
 
 	$scope.join = function() {
-		console.log($scope.gameObject);
 		if ($scope.username) {
 			if ($scope.gameObject.players.length == 0) {
-				console.log('calling join ...')
 				GameService.join($scope.username);
 			}
 			else if ($scope.gameObject.players.length == 1) {
 				if ($scope.gameObject.players[0] == $scope.username) {
-					console.log('already pushed username, joining ...');
 					GameService.poll($scope.gameObject.gamecode);
 					$scope.playing = true;
 				}
 				else {
-					console.log('calling join ...')
 					GameService.join($scope.username);
 				}
 			}
 			else {
 				if ($scope.gameObject.players[0] == $scope.username  || $scope.gameObject.players[1] == $scope.username ) {
-					console.log('already pushed username, joining ...');
 					GameService.poll($scope.gameObject.gamecode);
 					$scope.playing = true;
 				}
 				else {
-					console.log('game full ...')
 					$scope.error = true;
 					$scope.errormess = 'Game full :(';
 				}
@@ -196,7 +190,6 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 		var regexStr = /\/(\d+)(?:\/|$)/;
 		$scope.getPath = regexStr.exec($location.path());
 		if ($scope.getPath) {
-			console.log($scope.getPath[1]);
 			GameService.load($scope.getPath[1]);
 		}
 		else {
@@ -211,7 +204,6 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 	})
 
 	$scope.$on('loadSuccess', function() {
-		console.log('game loaded ...');
 		$scope.gameObject = GameService.results;
 		$scope.disallowJoin = false;
 	});

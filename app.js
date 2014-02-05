@@ -77,8 +77,6 @@ app.get('/', routes.index);
 
 app.post('/api/gameCreate', function (req, res) {
 
-	console.log(req.param);
-
 	game = new Game({
 		gamecode: req.param('gamecode'),
 		lines: req.param('lines'),
@@ -92,12 +90,12 @@ app.post('/api/gameCreate', function (req, res) {
 
 	game.save(function (error) {
 		if (error) {
-			console.log('create failed');
+			console.log('gameCreate failed');
 			console.log(error);
 			res.send('failure', 500);
 		}
 		else {
-			console.log('success');
+			console.log('gameCreate success');
 			res.send('success', 201);
 		}
 	});
@@ -106,15 +104,13 @@ app.post('/api/gameCreate', function (req, res) {
 
 app.get('/api/gameQuery/:id', function (req, res) {
 
-	console.log('api received query ... ' + req.params.id)
-
 	Game.findOne({'gamecode': req.params.id}, function (error, data) {
 		if(error) {
+			console.log('gameQuery failure');
 			console.log(error);
 			res.send('failure', 500)
 		}
 		else {
-			console.log(data);
 			res.send(data);
 		}
 	})
@@ -124,6 +120,7 @@ app.get('/api/gameDelete/:id', function (req, res) {
 
 	Game.remove({'gamecode': req.params.id}, function (err) {
 		if (err) {
+			console.log('gameDelete failure');
 			console.log(error);
 			res.send('failure', 500);
 		}
@@ -135,11 +132,11 @@ app.get('/api/gameDelete/:id', function (req, res) {
 
 app.post('/api/gamePatch', function (req, res) {
 	if (req.param('opType') == 'userAdd') {
-		console.log('received user push request: ' + req.param('gamecode'));
 		Game.findOneAndUpdate({'gamecode': req.param('gamecode')}, {$push: {players: req.param('name')}}, function (err, game) {
 			if (!err) {
 				game.save( function (error) {
 					if (error) {
+						console.log('game save failure');
 						console.log(error);
 						res.send('failure', 500);
 					}
@@ -149,15 +146,16 @@ app.post('/api/gamePatch', function (req, res) {
 				});
 			}
 			else {
+				console.log('gamePatch:userAdd failure');
 				console.log(err);
 				res.send('failure', 500);
 			}
 		});
 	}
 	else if (req.param('opType') == 'gameEnd') {
-		console.log('received game over command');
 		Game.findOneAndUpdate({'gamecode': req.param('gamecode')}, {$set: {'state': false}}, function (err, game) {
 			if (err) {
+				console.log('gamePatch:gameEnd failure');
 				console.log(error);
 				res.send('failure', 500);
 			}

@@ -19,10 +19,7 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 
 		var temp = JSON.stringify(gameObject);
 
-		console.log(temp);
-
 		$http.post(URL, temp).success( function() {
-			console.log('saved successfully');
 		}).error( function (data, status, headers, config) {
 			console.log('error ... ' + status);
 			console.log(data);
@@ -57,12 +54,7 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 			turn: flipTurn
 		};
 
-		console.log('logging packet for lineAdd');
-		console.log(packet);
-
 		$http.post(URL, packet).success( function (data) {
-			console.log('saved new line ...');
-			console.log('linecount = '+ GameService.results.lines);
 			if (GameService.results.lines == 1) {
 				packet = {
 					opType: 'gameEnd',
@@ -115,9 +107,6 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 		};
 
 		var game = GameService.results;
-
-		console.log('checking before joining ... ');
-		console.log(game);
 		
 		// then check to see if the room is full, and whether 
 		// someone else is already using your username
@@ -131,8 +120,6 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 				gamecode: game.gamecode,
 				name: username
 			};
-
-			console.log(packet);
 
 			$http.post(URL, packet).success( function (data) {
 				GameService.result = data;
@@ -161,7 +148,7 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 	GameService.log = function() {
 		var URL = 'http://murmuring-escarpment-2549.herokuapp.com/';
 		$http.get(URL).success( function (data) {
-			console.log('log success ... ');
+			
 		});
 	}
 
@@ -170,7 +157,6 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 			console.log('polling ... ');
 			var URL = 'http://murmuring-escarpment-2549.herokuapp.com/api/gameQuery/' + id;
 			$http.get(URL).success( function (response, status, headers) {
-				console.log('poll success');
 				GameService.results = response;
 				$rootScope.$broadcast('pollSuccess');
 				if (GameService.results.state == true) {
@@ -210,7 +196,6 @@ services.factory('JoinService', function($rootScope, $http, $timeout) {
 				JoinService.success = false;
 				$rootScope.$broadcast('queryFailure');
 			}
-			console.log('searching for game with code: ' + gameCode);
 		}, 2000);
 	};
 
