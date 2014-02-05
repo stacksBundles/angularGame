@@ -55,3 +55,7 @@
 .title {
   display: inline-block;
 }
+
+.stretch {
+  width: 100%;
+}
