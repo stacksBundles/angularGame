@@ -132,6 +132,7 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 	$scope.disallowJoin = true;
 	$scope.gameover = false;
 	$scope.notMyTurn = true;
+	$scope.gameFull = false;
 
 	$scope.join = function() {
 		if ($scope.username) {
@@ -216,6 +217,9 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 		}
 		else {
 			$scope.notMyTurn = true;
+		}
+		if ($scope.gameObject.players.length == 2) {
+			$scope.gameFull = true;
 		}
 		$scope.turnAnnounce = $scope.gameObject.players[$scope.gameObject.turn];
 	});

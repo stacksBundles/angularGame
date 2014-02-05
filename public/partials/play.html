@@ -18,9 +18,12 @@
 		  		</div>
 	  		</div>
 	  		<div ng-show='playing && !gameover'>
-		  		<div class='panel-title flip'>
+		  		<div class='panel-title flip' ng-show='gameFull'>
 		  			{{ turnAnnounce + "'s turn" }}
-		  		</div>	
+		  		</div>
+		  		<div class='panel-title flip' ng-hide='gameFull'>
+		  			<i class='fa fa-globe fa-spin blue'></i>&nbsp;Waiting for another player ...
+		  		</div>
 		  	</div>
 	  	</div>
 	  	<div class='table-well'>
