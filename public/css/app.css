@@ -64,3 +64,10 @@
 .blue {
   color: rgb(0, 0, 255);
 }
+
+@media (min-width: 400px) {
+  .concrete {
+    width: 360px;
+    margin: 0 auto;
+  }
+}
