@@ -207,6 +207,11 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 	$scope.$on('loadSuccess', function() {
 		$scope.gameObject = GameService.results;
 		$scope.disallowJoin = false;
+		if (GameService.results.state = false) {
+			$scope.playing = false;
+			$scope.gameover = true;
+			$scope.notMyTurn = true;
+		}
 	});
 
 	$scope.$on('pollSuccess', function() {

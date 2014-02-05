@@ -33,7 +33,7 @@
 		  		</tr>
 	  		</table>
 	  	</div>
-  		<div ng-hide='playing && !gameover'>
+  		<div ng-hide='playing || !gameover'>
   			<div ng-show='error'>
   				<div class='alert alert-warning'>
   					{{errormess}}
