@@ -67,7 +67,7 @@
 
 @media (min-width: 400px) {
   .concrete {
-    width: 360px;
+    max-width: 360px;
     margin: 0 auto;
   }
 }
