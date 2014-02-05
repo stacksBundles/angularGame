@@ -224,7 +224,7 @@ controllers.controller('PlayCtrl', function ($scope, $timeout, GameService, $loc
 	});
 
 	$scope.$on('gameOver', function() {
-		$scope.playing = true;
+		$scope.playing = false;
 		$scope.gameover = true;
 		$scope.notMyTurn = true;
 	});
