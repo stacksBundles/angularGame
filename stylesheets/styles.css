@@ -733,25 +733,14 @@ dt {
 }
 #header nav li a {
   color: white;
-  border: 1px solid #2588CF;
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #20B3BD), color-stop(100%, #659e10));
-  background: -webkit-linear-gradient(#20B3BD, #104E9E);
-  background: -moz-linear-gradient(#20B3BD, #104E9E);
-  background: -o-linear-gradient(#20B3BD, #104E9E);
-  background: -ms-linear-gradient(#20B3BD, #104E9E);
-  background: linear-gradient(#20B3BD, #104E9E);
+  border: 1px solid rgb(0, 0, 0);
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   -o-border-radius: 2px;
   -ms-border-radius: 2px;
   -khtml-border-radius: 2px;
   border-radius: 2px;
-  /*-moz-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3), 0px 3px 7px rgba(0, 0, 0, 0.7);
-  -webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3), 0px 3px 7px rgba(0, 0, 0, 0.7);
-  -o-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3), 0px 3px 7px rgba(0, 0, 0, 0.7);
-  box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3), 0px 3px 7px rgba(0, 0, 0, 0.7);
-  */
-  background-color: #104E9E;
+  background-color: rgb(100, 100, 100);
   padding: 10px 12px;
   margin-top: 6px;
   line-height: 14px;
@@ -760,14 +749,9 @@ dt {
   text-align: center;
 }
 #header nav li a:hover {
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #106C9E), color-stop(100%, #10429E));
-  background: -webkit-linear-gradient(#106C9E, #10429E);
-  background: -moz-linear-gradient(#106C9E, #10429E);
-  background: -o-linear-gradient(#106C9E, #10429E);
-  background: -ms-linear-gradient(#106C9E, #10429E);
-  background: linear-gradient(#106C9E, #10429E);
-  background-color: #104E9E;
-  border: 1px solid #2588CF;
+  background-color: rgb(130, 130, 130);
+  color: rgb(230, 230, 230);
+  border: 1px solid rgb(80, 80, 80);
  /* -moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.2), 0px 1px 0px rgba(0, 0, 0, 0);
   -webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.2), 0px 1px 0px rgba(0, 0, 0, 0);
   -o-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.2), 0px 1px 0px rgba(0, 0, 0, 0);
