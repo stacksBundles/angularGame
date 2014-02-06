@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>DictionFriction by stacksBundles</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/stacksBundles/angularGame">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/stacksBundles/angularGame/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/stacksBundles/angularGame/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>DictionFriction</h1>
+          <p></p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/stacksBundles">stacksBundles</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h3>
+<a name="what-it-is" class="anchor" href="#what-it-is"><span class="octicon octicon-link"></span></a>What it is</h3>
+
+<p>Remember when you were in elementary school, sitting in class, passing around notes? Remember that game where one person would start a story and then you'd take turns adding another line until you had a hilarious and bizarre story? Well this is that game, updated for the Millennial generation. Whether you're sitting at your desk at work or standing on the subway, this game will take you back to those carefree days of youth. All you need is a friend and an opposable thumb and you're ready to go!</p>
+
+<h3>
+<a name="how-it-was-built" class="anchor" href="#how-it-was-built"><span class="octicon octicon-link"></span></a>How it was built</h3>
+
+<p>This game is 100% JavaScript. Well, except for the CSS and HTML. I set out with the goal to write a browser-based game that would run on mobile and desktop computers, and that's exactly what I did.</p>
+
+<p>The back-end uses the Express framework, as well as the Mongoose object modeling library, and is deployed to Heroku automatically using Travis CI. The database is a MongoDB provided gratis by MongoLab.</p>
+
+<p>The front-end is written using the Angular.js framework and interacts with the back-end using an API. Bootstrap 3.1.0 was used extensively for the styling, and icons were made available by Font-Awesome.</p>
+
+<p>I originally intended to use socket.io to keep the app updated about changes to the database, but that proved to be overkill for my application so I switched to polling the database.</p>
+
+<h3>
+<a name="frameworkslibraries-used" class="anchor" href="#frameworkslibraries-used"><span class="octicon octicon-link"></span></a>Frameworks/libraries used</h3>
+
+<ul>
+<li>Angular.js 1.0.7</li>
+<li>Node.js 0.10.21</li>
+<li>Express 3.2.6</li>
+<li>Mongoose 3.8.5</li>
+<li>Bootstrap 3.1.0</li>
+<li>MongoDB 1.3.19</li>
+<li>Font Awesome 4.0.3</li>
+</ul>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
