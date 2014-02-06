@@ -816,7 +816,7 @@ section #title .credits {
   font-family: 'OpenSansRegular', "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
   color: #696969;
-  margin-top: -10px;
+  margin-top: 0px;
 }
 section #title .credits.left {
   float: left;
