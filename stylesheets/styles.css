@@ -856,11 +856,11 @@ section #title .credits.right {
 }
 
 .boxedUp {
-  display: block;
+  float: left;
   margin-top: 30px;
   margin-bottom: 30px;
 }
 
 .boxedDown {
-  display: block;
+  float: left;
 }
