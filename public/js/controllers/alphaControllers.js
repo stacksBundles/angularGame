@@ -25,9 +25,6 @@ controllers.controller('MainCtrl', function ($scope, GameService, $location, $ti
   	$scope.joinRoute = function() {
   		$location.path('/join');
   	}
-  	// $scope.log = function() {
-  	// 	GameService.log();
-  	// }
   	
   });
 

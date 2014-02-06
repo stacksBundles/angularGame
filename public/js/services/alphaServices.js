@@ -132,7 +132,6 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 
 			$http.post(URL, packet).success( function (data) {
 				GameService.result = data;
-				console.log('saved new username ... starting polling: ' + packet.gamecode);
 				$rootScope.$broadcast('joinSuccess');
 				GameService.poll(packet.gamecode);
 			})
@@ -140,7 +139,6 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 			return message;
 		}
 		else {
-			console.log('fail');
 			message.pass = false;
 			message.text = 'Game full, please join another';
 			return message;
@@ -176,7 +174,7 @@ services.factory('GameService', function($rootScope, $http, $timeout) {
 				}
 			})
 			.error( function (response, status, headers) {
-				console.log('poll failure, waiting 10 seconds to try again');
+				console.log('poll failed, waiting 10 seconds to try again');
 				$timeout(poller, 10000);
 			})
 		};
