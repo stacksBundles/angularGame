@@ -545,7 +545,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #e8e8e8;
+  color: rgb(255, 255, 255);
   margin: 0 0 10px;
   font-family: 'OpenSansRegular', "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
@@ -853,4 +853,9 @@ section #title .credits.right {
   nav {
     display: none;
   }
+}
+
+.boxedUp {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
