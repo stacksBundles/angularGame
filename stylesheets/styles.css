@@ -583,12 +583,15 @@ h3 {
 }
 
 a {
-  color: #ffcc00;
-  font-weight: 400;
+  color: rgb(80, 80, 80);
+  font-size: 90%;
+  font-weight: bold;
   text-decoration: none;
 }
 a:hover {
-  color: #ffeb9b;
+  color: rgb(80, 80, 80);
+  font-size: 90%;
+  font-weight: bold;
 }
 
 a small {
