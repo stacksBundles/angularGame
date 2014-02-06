@@ -71,7 +71,7 @@
     margin: 0 auto;
   }
 
-  body {
+  .fill {
     background-color: rgb(200, 200, 200);
   }
 }
